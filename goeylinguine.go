@@ -1,4 +1,4 @@
-// goeylinguine is a package that uses data from
+// Package goeylinguine is a package that uses data from
 // github.com/github/linguist data to return a file's lexer type.
 package goeylinguine
 
@@ -9,6 +9,7 @@ import (
 	"path/filepath"
 )
 
+// Language information for linguist
 type Language struct {
 	Language   string
 	Extensions []string
@@ -20,6 +21,7 @@ type Language struct {
 type languages struct {
 	Languages []Language
 }
+
 var langs languages
 
 func init() {
@@ -28,13 +30,15 @@ func init() {
 	dec := gob.NewDecoder(bufio.NewReader(fi))
 	dec.Decode(&langs)
 }
-// Given a file name returns it's linguist information, color, lexer,
-// type, etc.
+
+// GetLanguageFromFileName will return it's linguist information,
+// color, lexer, type, etc of a given file name.
 func GetLanguageFromFileName(fname string) *Language {
 	return getFileLanguage(fname)
 }
-// Given os.File returns it's linguist information, usefull when
-// iterating trough a file range in a directory.
+
+// GetFileLanguage will return language information for the given
+// os.File, useful for iterating trough readdir().
 func GetFileLanguage(f os.File) *Language {
 	fstat, _ := f.Stat()
 	return getFileLanguage(fstat.Name())
