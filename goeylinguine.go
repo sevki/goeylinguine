@@ -18,14 +18,14 @@ type Language struct {
 	Lexer      string
 	Type       string
 }
-type languages struct {
+type Languages struct {
 	Languages []Language
 }
 
-var langs languages
+var langs Languages
 
 func init() {
-	langs = languages{}
+	langs = Languages{}
 	fi, _ := os.Open(os.Getenv("GOPATH") + "/src/github.com/sevki/goeylinguine/languages.gob")
 	dec := gob.NewDecoder(bufio.NewReader(fi))
 	dec.Decode(&langs)
@@ -57,6 +57,17 @@ func getFileLanguage(fname string) *Language {
 			if ext == xt {
 				return &lang
 			}
+		}
+	}
+	return &Language{Language: "Text", Color: "#ccc"}
+}
+
+// GetLanguage will return language information for the given
+// language.
+func GetLanguage(name string) *Language {
+	for _, lang := range langs.Languages {
+		if lang.Language == name {
+			return lang
 		}
 	}
 	return &Language{Language: "Text", Color: "#ccc"}
