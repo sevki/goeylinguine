@@ -26,7 +26,7 @@ var langs Languages
 
 func init() {
 	langs = Languages{}
-	fi, _ := os.Open(os.Getenv("GOPATH") + "/src/github.com/sevki/goeylinguine/languages.gob")
+	fi, _ := os.Open(os.Getenv("GOPATH") + "/src/sevki.org/goeylinguine/languages.gob")
 	dec := gob.NewDecoder(bufio.NewReader(fi))
 	dec.Decode(&langs)
 }
@@ -67,7 +67,7 @@ func getFileLanguage(fname string) *Language {
 func GetLanguage(name string) *Language {
 	for _, lang := range langs.Languages {
 		if lang.Language == name {
-			return lang
+			return &lang
 		}
 	}
 	return &Language{Language: "Text", Color: "#ccc"}
